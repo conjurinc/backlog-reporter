@@ -12,6 +12,25 @@ class PumaBacklogDetector
     end
   end
 
+  def check_periodically interval_s = 0.01
+    while true
+      check
+      sleep interval_s
+    end
+  end
+
+  def check_in_background interval_s = 0.01
+    @thread = Thread.new { check_periodically interval_s }
+  end
+
+  def stop
+    if @thread
+      @thread.exit
+      @thread.join
+      @thread = nil
+    end
+  end
+
   class FlagFile
     def initialize path
       @path = path

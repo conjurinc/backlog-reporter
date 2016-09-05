@@ -37,11 +37,30 @@ describe PumaBacklogDetector do
   end
 
   describe "#check_periodically" do
-    it "periodically checks the backlog"
+    it "periodically checks the backlog" do
+      recv_times = 0
+      allow(detector).to receive(:check) do
+        recv_times += 1
+      end
+      thread = Thread.new { detector.check_periodically 0.01 }
+      sleep 0.1
+      expect(thread).to be_alive
+      thread.exit
+      expect(recv_times).to be > 9
+    end
   end
 
   describe "#check_in_background" do
-    it "runs a background checking thread"
+    it "runs a background checking thread" do
+      recv_times = 0
+      allow(detector).to receive(:check) do
+        recv_times += 1
+      end
+      detector.check_in_background
+      sleep 0.1
+      detector.stop
+      expect(recv_times).to be > 9
+    end
   end
 
   subject(:detector) do
