@@ -6,6 +6,12 @@ class PumaBacklogDetector
     @max_backlog = max_backlog
   end
 
+  def check
+    if server = Puma::Server.current
+      @flag.set server.backlog > @max_backlog
+    end
+  end
+
   class FlagFile
     def initialize path
       @path = path
