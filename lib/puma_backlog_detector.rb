@@ -1,7 +1,8 @@
 require "puma_backlog_detector/version"
+require "puma_backlog_detector/railtie" if defined? Rails
 
 class PumaBacklogDetector
-  def initialize flag_path, max_backlog
+  def initialize flag_path, max_backlog = 16
     @flag = FlagFile.new flag_path
     @max_backlog = max_backlog
   end
