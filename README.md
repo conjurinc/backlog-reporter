@@ -1,11 +1,22 @@
-# Backlog Detector
+# Backlog Reporter.
 
 This gem monitors the size of the web server (currently, just Puma) internal request backlog. (The backlog is requests whose socket has been accepted, but which are not yet being processed by the web server.) Once the request backlog exceeds a certain threshold, a flag file is touched. This flag file can be monitored by a fronting web server (e.g. Nginx) to proactively return 503 Service Unavailable, so that the backlog does not grow further. Once the request backlog falls back below the threshold, the flag file is deleted.
 
 The rapid 503 response prevents the backlog from growing without bound, and it prevents the server from trying to process too many requests in parallel. When the server is trying to process too many requests at once, the average latency starts to climb and all clients start to see longer and longer response times.
 
+# Example
+
+Here's an example of a web service whose behavior was improved with the Backlog Reporter.
+
+## Without Backlog Reporter
+
+At the 10 request per second rate, the response time starts to degrade until it climbs above 20 seconds per request and the remainder of the requests time out.
 
 ![Before backlog reporter](./doc/images/before_backlog.png)
+
+## With Backlog Reporter
+
+Once the server starts to become overloaded, it degrades in a predictable way. The average response time increases to about 5 seconds; however, it does not increase further from this level. With client retry, all requests will eventually be served successfully.
 
 ![After backlog reporter](./doc/images/after_backlog.png)
 
