@@ -1,6 +1,8 @@
-# PumaBacklogDetector
+# Backlog Detector
 
-Periodically checks Puma backlog and creates a flag file if too high.
+This gem monitors the size of the web server (currently, just Puma) internal request backlog. (The backlog is requests whose socket has been accepted, but which are not yet being processed by the web server.) Once the request backlog exceeds a certain threshold, a flag file is touched. This flag file can be monitored by a fronting web server (e.g. Nginx) to proactively return 503 Service Unavailable, so that the backlog does not grow further. Once the request backlog falls back below the threshold, the flag file is deleted.
+
+The rapid 503 response prevents the backlog from growing without bound, and it prevents the server from trying to process too many requests in parallel. When the server is trying to process too many requests at once, the average latency starts to climb and all clients start to see longer and longer response times.
 
 ## Installation
 
