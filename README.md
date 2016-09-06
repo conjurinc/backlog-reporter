@@ -4,6 +4,11 @@ This gem monitors the size of the web server (currently, just Puma) internal req
 
 The rapid 503 response prevents the backlog from growing without bound, and it prevents the server from trying to process too many requests in parallel. When the server is trying to process too many requests at once, the average latency starts to climb and all clients start to see longer and longer response times.
 
+
+![Before backlog reporter](./doc/images/before_backlog.png)
+
+![After backlog reporter](./doc/images/after_backlog.png)
+
 ## Installation
 
 Add this line to your application's Gemfile:
