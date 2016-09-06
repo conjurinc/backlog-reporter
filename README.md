@@ -20,7 +20,7 @@ Once the server starts to become overloaded, it degrades in a predictable way. T
 
 ![After backlog reporter](./doc/images/after_backlog.png)
 
-(Note: The performance of this application was also improved at the same time; that's why the responses are generally faster).
+(Note: The performance of this application was also improved at the same time; that's why even the initial responses are faster).
 
 ## Installation
 
