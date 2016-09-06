@@ -1,8 +1,6 @@
 # PumaBacklogDetector
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/puma_backlog_detector`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Periodically checks Puma backlog and creates a flag file if too high.
 
 ## Installation
 
@@ -22,7 +20,25 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In rails config:
+
+```ruby
+  config.puma_backlog_detector.flag_path = '/run/app/congested.flag'
+  config.puma_backlog_detector.max_backlog = 16
+  config.puma_backlog_detector.check_interval = 0.01 # seconds
+```
+
+In nginx config:
+
+```
+  location / {
+    proxy_pass http://localhost:300;
+
+    if (-f /run/app/congested.flag) {
+      return 503;
+    }
+  }
+```
 
 ## Development
 
@@ -32,5 +48,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/puma_backlog_detector.
+Bug reports and pull requests are welcome on GitHub at https://github.com/dividedmind/puma_backlog_detector.
 
