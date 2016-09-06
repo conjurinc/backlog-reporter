@@ -8,9 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = PumaBacklogDetector::VERSION
   spec.authors       = ["Rafał Rzepecki"]
   spec.email         = ["rafal@conjur.net"]
+  spec.license = "MIT"
 
   spec.summary       = %q{Periodically check Puma backlog and write a flag file}
-  spec.homepage      = "https://github.com/dividedmind/puma_backlog_detector"
+  spec.homepage      = "https://github.com/conjurinc/backlog-reporter"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"

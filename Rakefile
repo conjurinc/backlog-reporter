@@ -4,3 +4,23 @@ require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec)
 
 task :default => :spec
+
+task :headers do
+  require 'rubygems'
+  require 'copyright_header'
+
+  spec = Gem::Specification.load 'puma_backlog_detector.gemspec'
+
+  args = {
+    license: spec.license,
+    copyright_software: spec.name,
+    copyright_software_description: spec.summary,
+    :copyright_holders => ['Conjur Inc.'],
+    :copyright_years => ['2016'],
+    :add_path => 'lib:spec',
+    :output_dir => '.'
+  }
+
+  command_line = CopyrightHeader::CommandLine.new( args )
+  command_line.execute
+end
