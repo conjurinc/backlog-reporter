@@ -1,8 +1,12 @@
 # Backlog Reporter
 
-This gem monitors the size of the Puma web server internal request backlog. (The backlog is requests whose socket has been accepted, but which are not yet being processed by the web server.) Once the request backlog exceeds a certain threshold, a flag file is touched. This flag file can be monitored by a fronting web server (e.g. Nginx) to proactively return 503 Service Unavailable, so that the backlog does not grow further. Once the request backlog falls back below the threshold, the flag file is deleted.
+This gem monitors the size of the web server internal request backlog. (The backlog is requests whose socket has been accepted, but which are not yet being processed by the web server.) Once the request backlog exceeds a certain threshold, a flag file is touched. This flag file can be monitored by a fronting web server (e.g. Nginx) to proactively return 503 Service Unavailable, so that the backlog does not grow further. Once the request backlog falls back below the threshold, the flag file is deleted.
 
 The rapid 503 response prevents the backlog from growing without bound, and it prevents the server from trying to process too many requests in parallel. When the server is trying to process too many requests at once, the average latency starts to climb and all clients start to see longer and longer response times.
+
+# Requirements
+
+Currently, `backlog_reporter` works only with the Puma web server. 
 
 # Example
 
@@ -27,7 +31,7 @@ Once the server starts to become overloaded, it degrades in a predictable way. T
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'puma_backlog_detector'
+gem 'backlog_reporter'
 ```
 
 And then execute:
@@ -36,16 +40,16 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install puma_backlog_detector
+    $ gem install backlog_reporter
 
 ## Usage
 
 In rails config:
 
 ```ruby
-  config.puma_backlog_detector.flag_path = '/run/app/congested.flag'
-  config.puma_backlog_detector.max_backlog = 16
-  config.puma_backlog_detector.check_interval = 0.01 # seconds
+  config.backlog_reporter.flag_path = '/run/app/congested.flag'
+  config.backlog_reporter.max_backlog = 16
+  config.backlog_reporter.check_interval = 0.01 # seconds
 ```
 
 In nginx config:
@@ -68,5 +72,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/dividedmind/puma_backlog_detector.
+Bug reports and pull requests are welcome on GitHub at https://github.com/conjurinc/backlog-reporter.
 

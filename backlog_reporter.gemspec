@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'puma_backlog_detector/version'
+require 'backlog_reporter/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "puma_backlog_detector"
-  spec.version       = PumaBacklogDetector::VERSION
+  spec.name          = "backlog_reporter"
+  spec.version       = BacklogReporter::VERSION
   spec.authors       = ["Rafał Rzepecki"]
   spec.email         = ["rafal@conjur.net"]
   spec.license = "MIT"

@@ -22,7 +22,7 @@ require 'spec_helper'
 require 'tempfile'
 require 'puma'
 
-describe PumaBacklogDetector do
+describe BacklogReporter do
   describe "#initialize" do
     it "removes the flag file" do
       FileUtils.touch flag_path
@@ -84,7 +84,7 @@ describe PumaBacklogDetector do
   end
 
   subject(:detector) do
-    PumaBacklogDetector.new flag_path, max_backlog
+    BacklogReporter.new flag_path, max_backlog
   end
 
   let(:flag_path) do

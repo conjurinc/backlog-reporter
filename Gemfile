@@ -1,4 +1,7 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in puma_backlog_detector.gemspec
+#ruby=ruby-2.2.4
+#ruby-gemset=backlog-reporter
+
+# Specify your gem's dependencies in backlog_reporter.gemspec
 gemspec

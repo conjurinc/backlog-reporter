@@ -19,4 +19,4 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'puma_backlog_detector'
+require 'backlog_reporter'

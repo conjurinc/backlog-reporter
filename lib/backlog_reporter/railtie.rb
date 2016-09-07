@@ -18,6 +18,19 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-class PumaBacklogDetector
-  VERSION = "0.1.1"
+class BacklogReporter
+  class Railtie < Rails::Railtie
+    config.backlog_reporter = ActiveSupport::OrderedOptions.new
+    config.backlog_reporter.max_backlog = 16
+    config.backlog_reporter.check_interval = 0.01
+    config.backlog_reporter.flag_path = nil
+
+    initializer "backlog_reporter.run" do
+      conf = config.backlog_reporter
+      if conf.flag_path
+        @backlog_reporter = BacklogReporter.new conf.flag_path, conf.max_backlog
+        @backlog_reporter.check_in_background conf.check_interval
+      end
+    end
+  end
 end
