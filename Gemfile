@@ -5,3 +5,5 @@ source 'https://rubygems.org'
 
 # Specify your gem's dependencies in backlog_reporter.gemspec
 gemspec
+
+gem 'ci_reporter_rspec', group: :test

@@ -24,3 +24,11 @@ task :headers do
   command_line = CopyrightHeader::CommandLine.new( args )
   command_line.execute
 end
+
+begin
+  require 'ci/reporter/rake/rspec'
+
+  task jenkins: ['ci:setup:rspec', :spec]
+rescue LoadError
+  # expected on non-jenkins
+end
