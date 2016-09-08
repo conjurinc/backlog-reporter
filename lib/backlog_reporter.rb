@@ -28,20 +28,28 @@ class BacklogReporter
   end
 
   def check
-    if server = Puma::Server.current
+    require 'puma'
+    if server = puma_server
       @flag.set server.backlog > @max_backlog
     end
   end
 
-  def check_periodically interval_s = 0.01
-    while true
-      check
-      sleep interval_s
-    end
+  ThreadLocalKey = :puma_server
+
+  def puma_server
+    puma_thread = Thread.list.find{|t| t[ThreadLocalKey]}
+    puma_thread && puma_thread[ThreadLocalKey]
   end
 
-  def check_in_background interval_s = 0.01
-    @thread = Thread.new { check_periodically interval_s }
+  def check_periodically interval_s = 0.01
+    while true
+      check rescue nil                                                                                                                   
+      sleep interval_s                                                                                                                   
+    end                                                                                                                                  
+  end                                                                                                                                    
+                                                                                                                                         
+  def check_in_background interval_s = 0.01                                                                                              
+    @thread = Thread.new { check_periodically interval_s }                                                                               
   end
 
   def stop

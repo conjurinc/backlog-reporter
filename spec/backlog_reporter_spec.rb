@@ -23,15 +23,24 @@ require 'tempfile'
 require 'puma'
 
 describe BacklogReporter do
+  shared_context "with_puma_server" do
+    before {
+      allow(detector).to receive(:puma_server).and_return server 
+    }
+  end
+
   describe "#initialize" do
     it "removes the flag file" do
       FileUtils.touch flag_path
       expect_rm
+      expect(File.exists?(flag_path)).to be(true)
       expect(detector).to be
     end
   end
 
   describe "#check" do
+    include_context "with_puma_server"
+
     context "when Puma is not running" do
       let(:server) { nil }
       it "does nothing" do
@@ -57,6 +66,8 @@ describe BacklogReporter do
   end
 
   describe "#check_periodically" do
+    include_context "with_puma_server"
+
     it "periodically checks the backlog" do
       recv_times = 0
       allow(detector).to receive(:check) do
@@ -71,6 +82,8 @@ describe BacklogReporter do
   end
 
   describe "#check_in_background" do
+    include_context "with_puma_server"
+
     it "runs a background checking thread" do
       recv_times = 0
       allow(detector).to receive(:check) do
@@ -88,14 +101,13 @@ describe BacklogReporter do
   end
 
   let(:flag_path) do
-    f = Tempfile.new('puma_backlog_detector')
+    f = Tempfile.new('backlog_reporter')
     path = f.path
     f.unlink
     path
   end
 
   let(:max_backlog) { 7 }
-  before { allow(Puma::Server).to receive(:current).and_return server }
   let(:server) { double Puma::Server }
 
   def expect_rm

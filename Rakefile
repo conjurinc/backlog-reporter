@@ -9,7 +9,7 @@ task :headers do
   require 'rubygems'
   require 'copyright_header'
 
-  spec = Gem::Specification.load 'puma_backlog_detector.gemspec'
+  spec = Gem::Specification.load 'backlog_reporter.gemspec'
 
   args = {
     license: spec.license,
